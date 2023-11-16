@@ -14,6 +14,13 @@
             document.documentElement.classList.add(className);
         }));
     }
+    function addLoadedClass() {
+        if (!document.documentElement.classList.contains("loading")) window.addEventListener("load", (function() {
+            setTimeout((function() {
+                document.documentElement.classList.add("loaded");
+            }), 0);
+        }));
+    }
     let _slideUp = (target, duration = 500, showmore = 0) => {
         if (!target.classList.contains("_slide")) {
             target.classList.add("_slide");
@@ -967,7 +974,8 @@
                 window.location.hash = themeType;
             }
             function updateDividerPosition(themeType) {
-                const activeButton = document.querySelector('.switch-button.active[data-type-theme="' + themeType + '"]');
+                themeType = themeType || "brand";
+                const activeButton = document.querySelector('.switch-button[data-type-theme="' + themeType + '"]');
                 if (activeButton) {
                     const tabTitleRect = activeButton.getBoundingClientRect();
                     const leftPosition = tabTitleRect.left - switchButtons[0].getBoundingClientRect().left;
@@ -976,7 +984,7 @@
                 }
             }
             const hashOnLoad = window.location.hash.replace("#", "");
-            if (hashOnLoad) handleThemeSwitch(hashOnLoad);
+            if (hashOnLoad) handleThemeSwitch(hashOnLoad); else updateDividerPosition("brand");
         }));
     };
     const removeDividerTextPopup = () => {
@@ -995,4 +1003,5 @@
     clickCreateRipple();
     window["FLS"] = true;
     isWebp();
+    addLoadedClass();
 })();
